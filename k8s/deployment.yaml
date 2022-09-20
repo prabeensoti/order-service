@@ -87,6 +87,11 @@ spec:
             secretKeyRef:
               name: app
               key: JWT_PREFIX
+        - name: ORDER_PAYMENT_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app
+              key: ORDER_PAYMENT_SECRET_KEY
 ---
 apiVersion: v1
 kind: Service
