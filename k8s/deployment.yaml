@@ -1,0 +1,105 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-service
+  labels:
+    app: order-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order-service
+  template:
+    metadata:
+      labels:
+        app: order-service
+    spec:
+      containers:
+      - name: order-service
+        image: prabeensoti/order-service
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 8080
+          initialDelaySeconds: 120
+          timeoutSeconds: 10
+          periodSeconds: 3
+          failureThreshold: 2
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: 8080
+          initialDelaySeconds: 130
+          timeoutSeconds: 2
+          periodSeconds: 8
+          failureThreshold: 1
+        env:
+        - name: APP_PROFILE
+          valueFrom:
+            configMapKeyRef:
+              name: app
+              key: APP_PROFILE
+        - name: MYSQL_DATABASE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: app
+              key: DATABASE_URL
+        - name: MYSQL_DATABASE_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: app
+              key: DATABASE_PORT
+        - name: MYSQL_DATABASE_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: app
+              key: USER_DATABASE_NAME
+        - name: PAYMENT_SERVICE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: app
+              key: PAYMENT_SERVICE_URL
+        - name: USER_SERVICE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: app
+              key: USER_SERVICE_URL
+        - name: MYSQL_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: mysqldb
+              key: DATABASE_USER
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysqldb
+              key: DATABASE_PASSWORD
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: app
+              key: JWT_SECRET
+        - name: JWT_PREFIX
+          valueFrom:
+            secretKeyRef:
+              name: app
+              key: JWT_PREFIX
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-service
+  labels:
+    app: order-service
+    spring-boot: "true"
+spec:
+  ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: order-service
+  type: ClusterIP
