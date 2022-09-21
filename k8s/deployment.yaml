@@ -56,7 +56,7 @@ spec:
           valueFrom:
             configMapKeyRef:
               name: app
-              key: USER_DATABASE_NAME
+              key: ORDER_DATABASE_NAME
         - name: PAYMENT_SERVICE_URL
           valueFrom:
             configMapKeyRef:
@@ -92,6 +92,11 @@ spec:
             secretKeyRef:
               name: app
               key: ORDER_PAYMENT_SECRET_KEY
+        - name: ORDER_NOTIFICATION_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app
+              key: ORDER_NOTIFICATION_SECRET_KEY
 ---
 apiVersion: v1
 kind: Service

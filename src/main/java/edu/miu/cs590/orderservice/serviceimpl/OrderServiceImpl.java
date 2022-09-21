@@ -1,6 +1,8 @@
 package edu.miu.cs590.orderservice.serviceimpl;
 
+import edu.miu.cs590.orderservice.clients.NotificationFeignClient;
 import edu.miu.cs590.orderservice.clients.PaymentFeignClient;
+import edu.miu.cs590.orderservice.dto.EmailSenderDto;
 import edu.miu.cs590.orderservice.dto.OrderDto;
 import edu.miu.cs590.orderservice.entity.*;
 
@@ -27,6 +29,9 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     OrderRepository orderRepository;
 
+    @Autowired
+    NotificationFeignClient notificationFeignClient;
+
     @Override
     public OrderDto getById(Long id) {
         return MapperUtil.map(orderRepository.findById(id), OrderDto.class);
@@ -47,11 +52,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDto save(OrderDto orderDto) {
-
         Order order = MapperUtil.map(orderDto, Order.class);
         order.setStatus(OrderStatus.DRAFT);
-
-        //return null;
         return orderMapper.toOrderDto(orderRepository.save(order));
     }
 
@@ -59,8 +61,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto pay(Long orderId, PaymentInfo paymentInfo) {
         Order order = orderRepository.getById(orderId);
-
-
         PaymentRequest request = new PaymentRequest();
         request.setUserId(order.getUserId());
         request.setOrderId(order.toString());
@@ -96,16 +96,11 @@ public class OrderServiceImpl implements OrderService {
         }
 
         order.setStatus(OrderStatus.PLACED);
-        orderRepository.save(order);
-
-        return MapperUtil.map(orderRepository.save(order), OrderDto.class);
+        Order order1 = orderRepository.save(order);
+        notificationFeignClient.paymentNotification(EmailSenderDto.builder().sender("").to("").subject("Order Successful!").message("Order with order id "+order1.getId()+" placed").build());
+        return MapperUtil.map(order1, OrderDto.class);
 
     }
-
-//    @Override
-//    public ProductDto addProduct(ProductDto product) {
-//        return  productMapper.toProductDto(productRepository.save(productMapper.dtoToEntity(product))) ;
-//    }
 
 
     @Override
@@ -115,12 +110,6 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus(status);
         OrderDto orderDto = MapperUtil.map(orderRepository.save(order), OrderDto.class);
         return orderDto;
-
-//        Order ord = orderMapper.dtoToOrder(orderDto);
-//                if(ord != null){
-//                    return orderMapper.toOrderDto(orderRepository.save(ord));
-//                }
-//                return null;
     }
 
 

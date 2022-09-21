@@ -4,8 +4,8 @@ import feign.RequestInterceptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 
-public class PaymentFeignConfig {
-    @Value("${order.payment.secret.key}")
+public class NotificationFeignConfig {
+    @Value("${notification.service.key}")
     public String serviceKey;
 
     @Bean
@@ -14,5 +14,4 @@ public class PaymentFeignConfig {
             requestTemplate.header("API_KEY", serviceKey);
         };
     }
-
 }

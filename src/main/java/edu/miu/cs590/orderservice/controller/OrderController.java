@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/orders")
+@RequestMapping("/orders")
 public class OrderController {
 
     @Autowired
@@ -21,7 +21,6 @@ public class OrderController {
 
     @GetMapping()
     public ResponseEntity<List<OrderDto>> getAllOrders() {
-
         return new ResponseEntity<>(orderService.getAllOrders(), HttpStatus.OK);
     }
 
@@ -51,10 +50,7 @@ public class OrderController {
         return new ResponseEntity<>(orderDto, HttpStatus.OK);
     }
 
-
-
     @DeleteMapping("/{id}")
-
     public ResponseEntity<?> deleteOrder(@PathVariable Long id) {
         orderService.deleteOrder(id);
         return new ResponseEntity<>(HttpStatus.OK);
