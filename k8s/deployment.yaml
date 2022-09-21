@@ -37,7 +37,7 @@ spec:
           periodSeconds: 8
           failureThreshold: 1
         env:
-        - name: APP_PROFILE
+          - name: APP_PROFILE
           valueFrom:
             configMapKeyRef:
               name: app
@@ -57,26 +57,31 @@ spec:
             configMapKeyRef:
               name: app
               key: ORDER_DATABASE_NAME
-        - name: PAYMENT_SERVICE_URL
-          valueFrom:
-            configMapKeyRef:
-              name: app
-              key: PAYMENT_SERVICE_URL
-        - name: USER_SERVICE_URL
-          valueFrom:
-            configMapKeyRef:
-              name: app
-              key: USER_SERVICE_URL
-        - name: MYSQL_USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: mysqldb
-              key: DATABASE_USER
-        - name: MYSQL_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mysqldb
-              key: DATABASE_PASSWORD
+          - name: PAYMENT_SERVICE_URL
+            valueFrom:
+              configMapKeyRef:
+                name: app
+                key: PAYMENT_SERVICE_URL
+          - name: USER_SERVICE_URL
+            valueFrom:
+              configMapKeyRef:
+                name: app
+                key: USER_SERVICE_URL
+          - name: NOTIFICATION_SERVICE_URL
+            valueFrom:
+              configMapKeyRef:
+                name: app
+                key: NOTIFICATION_SERVICE_URL
+          - name: MYSQL_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: mysqldb
+                key: DATABASE_USER
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mysqldb
+                key: DATABASE_PASSWORD
         - name: JWT_SECRET
           valueFrom:
             secretKeyRef:

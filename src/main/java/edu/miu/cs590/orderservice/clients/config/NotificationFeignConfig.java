@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 
 public class NotificationFeignConfig {
-    @Value("${notification.service.key}")
+    @Value("${order.notification.secret.key}")
     public String serviceKey;
 
     @Bean
