@@ -42,11 +42,11 @@ spec:
               configMapKeyRef:
                 name: app
                 key: APP_PROFILE
-        - name: MYSQL_DATABASE_URL
-          valueFrom:
-            configMapKeyRef:
-              name: app
-              key: DATABASE_URL
+          - name: MYSQL_DATABASE_URL
+            valueFrom:
+              configMapKeyRef:
+                name: app
+                key: DATABASE_URL
           - name: MYSQL_DATABASE_PORT
             valueFrom:
               configMapKeyRef:
@@ -92,16 +92,16 @@ spec:
               secretKeyRef:
                 name: app
                 key: JWT_PREFIX
-        - name: ORDER_PAYMENT_SECRET_KEY
-          valueFrom:
-            secretKeyRef:
-              name: app
-              key: ORDER_PAYMENT_SECRET_KEY
-        - name: ORDER_NOTIFICATION_SECRET_KEY
-          valueFrom:
-            secretKeyRef:
-              name: app
-              key: ORDER_NOTIFICATION_SECRET_KEY
+          - name: ORDER_PAYMENT_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: app
+                key: ORDER_PAYMENT_SECRET_KEY
+          - name: ORDER_NOTIFICATION_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: app
+                key: ORDER_NOTIFICATION_SECRET_KEY
 ---
 apiVersion: v1
 kind: Service
