@@ -5,9 +5,7 @@ import edu.miu.cs590.orderservice.entity.Order;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 
-import java.util.Optional;
-
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING,uses = {ItemsMapper.class})
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = {ItemsMapper.class, ShippingAddressMapper.class})
 public interface OrderMapper {
 
         OrderDto toOrderDto(Order order);

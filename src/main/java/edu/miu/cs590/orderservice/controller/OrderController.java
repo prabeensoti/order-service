@@ -47,7 +47,7 @@ public class OrderController {
     public ResponseEntity<?> pay(@PathVariable Long id, @RequestBody PaymentInfo paymentInfo){
         OrderDto orderDto = orderService.pay(id, paymentInfo);
         if(orderDto == null) return new ResponseEntity<>("Payment failed", HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<>(orderDto, HttpStatus.OK);
+        return new ResponseEntity<String>("Order placed successfully!!", HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

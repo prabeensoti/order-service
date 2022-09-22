@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PaymentRequest {
 
-    private String userId;
+    private Long userId;
     private String paypalId;
     private String creditCardNumber;
-    private String orderId;
+    private Long orderId;
     private Double balance;
 
     private String bankAccNumber;

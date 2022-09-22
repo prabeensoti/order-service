@@ -1,7 +1,6 @@
 package edu.miu.cs590.orderservice.clients;
 
 import edu.miu.cs590.orderservice.clients.config.NotificationFeignConfig;
-import edu.miu.cs590.orderservice.dto.EmailResponse;
 import edu.miu.cs590.orderservice.dto.EmailSenderDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,5 +10,5 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface NotificationFeignClient {
 
     @PostMapping("/email/push")
-    EmailResponse paymentNotification(@RequestBody EmailSenderDto emailSenderDto);
+    String paymentNotification(@RequestBody EmailSenderDto emailSenderDto);
 }

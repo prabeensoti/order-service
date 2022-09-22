@@ -4,7 +4,6 @@ package edu.miu.cs590.orderservice.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
@@ -18,7 +17,7 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String userId;
+    private Long userId;
 
     @Enumerated(EnumType.STRING)
     private PaymentType paymentType;
@@ -33,7 +32,5 @@ public class Order {
 
     @Embedded
     private ShippingAddress shippingAddress;
-
-
 
 }

@@ -5,7 +5,7 @@ metadata:
   labels:
     app: order-service
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: order-service
@@ -38,25 +38,25 @@ spec:
           failureThreshold: 1
         env:
           - name: APP_PROFILE
-          valueFrom:
-            configMapKeyRef:
-              name: app
-              key: APP_PROFILE
+            valueFrom:
+              configMapKeyRef:
+                name: app
+                key: APP_PROFILE
         - name: MYSQL_DATABASE_URL
           valueFrom:
             configMapKeyRef:
               name: app
               key: DATABASE_URL
-        - name: MYSQL_DATABASE_PORT
-          valueFrom:
-            configMapKeyRef:
-              name: app
-              key: DATABASE_PORT
-        - name: MYSQL_DATABASE_NAME
-          valueFrom:
-            configMapKeyRef:
-              name: app
-              key: ORDER_DATABASE_NAME
+          - name: MYSQL_DATABASE_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: app
+                key: DATABASE_PORT
+          - name: MYSQL_DATABASE_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: app
+                key: ORDER_DATABASE_NAME
           - name: PAYMENT_SERVICE_URL
             valueFrom:
               configMapKeyRef:
@@ -82,16 +82,16 @@ spec:
               secretKeyRef:
                 name: mysqldb
                 key: DATABASE_PASSWORD
-        - name: JWT_SECRET
-          valueFrom:
-            secretKeyRef:
-              name: app
-              key: JWT_SECRET
-        - name: JWT_PREFIX
-          valueFrom:
-            secretKeyRef:
-              name: app
-              key: JWT_PREFIX
+          - name: JWT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: app
+                key: JWT_SECRET
+          - name: JWT_PREFIX
+            valueFrom:
+              secretKeyRef:
+                name: app
+                key: JWT_PREFIX
         - name: ORDER_PAYMENT_SECRET_KEY
           valueFrom:
             secretKeyRef:

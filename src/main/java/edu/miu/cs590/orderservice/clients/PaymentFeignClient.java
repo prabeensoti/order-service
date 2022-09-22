@@ -10,11 +10,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(name = "payment-service", url ="${payment.service.url}",configuration = PaymentFeignConfig.class)
 public interface PaymentFeignClient {
-    @PostMapping("/paypal")
+    @PostMapping("/payments/paypal")
     ResponseEntity<String> processPayPalPayment(@RequestBody PaymentRequest paymentRequest);
-    @PostMapping("/cc")
+
+    @PostMapping("/payments/cc")
     ResponseEntity<String> processCcPayment(@RequestBody PaymentRequest paymentRequest);
 
-    @PostMapping("/bank")
+    @PostMapping("/payments/bank")
     ResponseEntity<String> processBankPayment(@RequestBody PaymentRequest paymentRequest);
 }

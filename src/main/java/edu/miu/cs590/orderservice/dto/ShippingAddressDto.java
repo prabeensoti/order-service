@@ -5,8 +5,6 @@ import lombok.Data;
 @Data
 public class ShippingAddressDto {
 
-    private Long id;
-    private Long OrderId;
     private String address1;
     private String address2;
     private String city;

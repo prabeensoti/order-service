@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.*;
+import javax.persistence.Embeddable;
 
 @Data
 @NoArgsConstructor
@@ -13,16 +13,10 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Embeddable
 public class ShippingAddress {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
-
-//    private Long OrderId;
     private String address1;
     private String address2;
     private String city;
     private String state;
     private Number zip;
     private String country;
-
 }

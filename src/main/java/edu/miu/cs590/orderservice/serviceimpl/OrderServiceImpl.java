@@ -5,7 +5,6 @@ import edu.miu.cs590.orderservice.clients.PaymentFeignClient;
 import edu.miu.cs590.orderservice.dto.EmailSenderDto;
 import edu.miu.cs590.orderservice.dto.OrderDto;
 import edu.miu.cs590.orderservice.entity.*;
-
 import edu.miu.cs590.orderservice.mapper.OrderMapper;
 import edu.miu.cs590.orderservice.repository.OrderRepository;
 import edu.miu.cs590.orderservice.service.OrderService;
@@ -14,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -51,8 +51,9 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
+    @Transactional
     public OrderDto save(OrderDto orderDto) {
-        Order order = MapperUtil.map(orderDto, Order.class);
+        Order order = orderMapper.dtoToOrder(orderDto);
         order.setStatus(OrderStatus.DRAFT);
         return orderMapper.toOrderDto(orderRepository.save(order));
     }
@@ -63,7 +64,7 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderRepository.getById(orderId);
         PaymentRequest request = new PaymentRequest();
         request.setUserId(order.getUserId());
-        request.setOrderId(order.toString());
+        request.setOrderId(orderId);
         request.setPaypalId(paymentInfo.getPaypalId());
         request.setBankAccNumber(paymentInfo.getBankAccNumber());
         request.setCreditCardNumber(paymentInfo.getCreditCardNumber());
@@ -97,7 +98,7 @@ public class OrderServiceImpl implements OrderService {
 
         order.setStatus(OrderStatus.PLACED);
         Order order1 = orderRepository.save(order);
-        notificationFeignClient.paymentNotification(EmailSenderDto.builder().sender("").to("").subject("Order Successful!").message("Order with order id "+order1.getId()+" placed").build());
+        notificationFeignClient.paymentNotification(EmailSenderDto.builder().sender("from@example.com").to("to@example.com").subject("Order Successful!").message("Order with order id " + order1.getId() + " placed").build());
         return MapperUtil.map(order1, OrderDto.class);
 
     }
