@@ -26,7 +26,7 @@ public class SecurityConfig {
                 .addFilterAfter(jwtTokenFilter, BasicAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers("/actuator/**").permitAll()
-                .antMatchers("/**").permitAll()
+                .antMatchers("/**").authenticated()
                 .anyRequest()
                 .authenticated().and().build();
     }
